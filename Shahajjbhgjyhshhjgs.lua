@@ -350,33 +350,7 @@ local AutoToolsSection = Main:Section({
     TextXAlignment = "Left",
     TextSize = 19, -- Default Size
 })
-
-local WhitelistingSection = Kills:Section({ 
-    Title = "Whitelisting",
-    TextXAlignment = "Left",
-    TextSize = 19, -- Default Size
-})
-
-local whitelist = {}
-
-local WhitelistInput = Kills:Input({
-    Title = "Whitelist Player",
-    Desc = "Adds player to whitelist",
-    Value = "",
-    InputIcon = "",
-    Type = "Input", -- or "Textarea"
-    Placeholder = "Enter username...",
-    Callback = function(input)
-        local target = game.Players:FindFirstChild(input)
-        if target then
-            whitelist[target.Name] = true
-            print("Whitelisted: " .. target.Name)
-        else
-            warn("Player not found: " .. input)
-        end
-    end
-})
-
+        
 local AutoKillsSection = Kills:Section({ 
     Title = "Auto Kills",
     TextXAlignment = "Left",
@@ -420,7 +394,7 @@ local AutoKillToggle = Kills:Toggle({
 })
 
 local AutoKillPlayerSection = Kills:Section({ 
-    Title = "Auto Kill Player",
+    Title = "Auto Players",
     TextXAlignment = "Left",
     TextSize = 19, -- Default Size
 })
