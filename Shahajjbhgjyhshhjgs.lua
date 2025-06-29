@@ -377,106 +377,6 @@ local WhitelistInput = Kills:Input({
     end
 })
 
-local autoKillRunning = false
-local whitelist = whitelist or {} -- Ensure it's defined
-
-local AutoWhitelistKillToggle = Kills:Toggle({
-    Title = "Auto Kill (Whitelist)",
-    Desc = "Only kills players on your whitelist",
-    Icon = "skull",
-    Type = "",
-    Default = false,
-    Callback = function(state)
-        autoKillRunning = state
-
-        task.spawn(function()
-            while autoKillRunning do
-                local player = game.Players.LocalPlayer
-
-                for _, target in ipairs(game.Players:GetPlayers()) do
-                    if target ~= player and whitelist[target.Name] then
-                        local root = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
-                        local rHand = player.Character and player.Character:FindFirstChild("RightHand")
-                        local lHand = player.Character and player.Character:FindFirstChild("LeftHand")
-
-                        if root and rHand and lHand then
-                            firetouchinterest(rHand, root, 1)
-                            firetouchinterest(lHand, root, 1)
-                            firetouchinterest(rHand, root, 0)
-                            firetouchinterest(lHand, root, 0)
-                        end
-                    end
-                end
-
-                task.wait(0.1)
-            end
-        end)
-    end
-})
-
-local BlacklistingSection = Kills:Section({ 
-    Title = "Blacklisting",
-    TextXAlignment = "Left",
-    TextSize = 19, -- Default Size
-})
-
-local blacklist = {}
-
-local BlacklistInput = Kills:Input({
-    Title = "Blacklist Player",
-    Desc = "Adds player to blacklist",
-    Value = "",
-    InputIcon = "",
-    Type = "Input", -- or "Textarea"
-    Placeholder = "Enter username...",
-    Callback = function(input)
-        local target = game.Players:FindFirstChild(input)
-        if target then
-            blacklist[target.Name] = true
-            print("Blacklisted: " .. target.Name)
-        else
-            warn("Player not found: " .. input)
-        end
-    end
-})
-
-local autoKillRunning = false
-local blacklist = blacklist or {} -- Ensure it's defined
-
-local AutoBlackKillToggle = Kills:Toggle({
-    Title = "Auto Kill (Blacklist)",
-    Desc = "Auto kills only blacklisted players",
-    Icon = "",
-    Type = "Toggle",
-    Default = false,
-    Callback = function(state)
-        autoKillRunning = state
-
-        task.spawn(function()
-            while autoKillRunning do
-                local player = game.Players.LocalPlayer
-
-                for _, target in ipairs(game.Players:GetPlayers()) do
-                    if target ~= player and blacklist[target.Name] then
-                        local root = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
-                        local rHand = player.Character and player.Character:FindFirstChild("RightHand")
-                        local lHand = player.Character and player.Character:FindFirstChild("LeftHand")
-
-                        if root and rHand and lHand then
-                            firetouchinterest(rHand, root, 1)
-                            firetouchinterest(lHand, root, 1)
-                            firetouchinterest(rHand, root, 0)
-                            firetouchinterest(lHand, root, 0)
-                        end
-                    end
-                end
-
-                task.wait(0.1)
-            end
-        end)
-    end
-})
-
 local AutoKillsSection = Kills:Section({ 
     Title = "Auto Kills",
     TextXAlignment = "Left",
@@ -517,6 +417,12 @@ local AutoKillToggle = Kills:Toggle({
             end
         end)
     end
+})
+
+local AutoKillPlayerSection = Kills:Section({ 
+    Title = "Auto Kill Player",
+    TextXAlignment = "Left",
+    TextSize = 19, -- Default Size
 })
 
 local MatrixAuraSection = Kills:Section({ 
